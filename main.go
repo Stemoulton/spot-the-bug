@@ -1,3 +1,4 @@
+//package main Bug-1 (missing package main)
 
 import (
 	"encoding/json"
@@ -27,6 +28,7 @@ type zooFact struct {
 
 func main() {
 	res, err := http.Get("https://zoo-animal-api.herokuapp.com/animals/rand/?5")
+	// res, err := http.Get("https://zoo-animal-api.herokuapp.com/animals/rand/5") Bug-2 incorrect uri
 	if err != nil {
 		log.Printf("error on http request: %s\n", err)
 	}
@@ -38,7 +40,8 @@ func main() {
 
 	var zooFacts zoo
 
-	err = json.Unmarshal(resBody, &zooFacts)
+	err = json.Unmarshal(resBody, zooFacts)
+	//err = json.Unmarshal(resBody, &catFacts) Bug-3
 	if err != nil {
 		log.Printf("could convert json: %s\n", err)
 	}
