@@ -38,10 +38,12 @@ def page_animals(num_animals: int):
     total_requests, remainder = divmod(num_animals, MAX_PER_REQUEST)
     for _ in range(total_requests):
         return get_animals(MAX_PER_REQUEST)
+        #yield get_animals(MAX_PER_REQUEST) Bug-1
     yield get_animals(remainder)
 
 
 if "__name__" == __main__:
+#if __name__ == "__main__": Bug-2
     parser = ArgumentParser(description="Retrieve random animals and their diets")
     parser.add_argument("-n", "--num-animals", default=10, type=int)
     args = parser.parse_args()
@@ -50,6 +52,7 @@ if "__name__" == __main__:
     try:
         for animals in page_animals(args.num_animals):
             descriptions.append([f"{d['name']} - {d['diet']}" for d in animals])
+            #descriptions += [f"{d['name']} - {d['diet']}" for d in animals] Bug-3
     except APIError as e:
         print(f"API Error: {e}")
     else:
